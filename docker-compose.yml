@@ -1,0 +1,36 @@
+version: "2"
+services:
+  jmeter:
+    build:
+      context: ./jmeter/
+    links:
+    - influxdb
+    volumes:
+      - ./${TEST_DIR}/:/${TEST_DIR}/
+      - ./plugins/:/plugins
+    command: 
+      ${JMETER_COMMAND}
+    environment:
+      - JVM_ARGS=${JVM_ARGS}
+      - LOG_DIR=${LOG_DIR}
+  influxdb:
+    image: influxdb:1.7.4
+    container_name: influxdb
+    ports:
+      - "8086"
+    env_file:
+      - ./influx-grafana/env.influxdb
+    volumes:
+    - ./influx-grafana/influx-data:/var/lib/influxdb
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "30000:3000"
+    env_file:
+      - ./influx-grafana/env.grafana
+    links:
+      - influxdb
+    volumes:
+      - ./influx-grafana/grafana/provisioning/:/etc/grafana/provisioning/
+      - ./influx-grafana/grafana/dashboards/:/var/lib/grafana/dashboards/

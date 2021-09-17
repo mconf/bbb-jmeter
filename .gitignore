@@ -1,0 +1,5 @@
+test/report
+test/logs
+test/jmeter.log
+test-plan.jtl
+influx-grafana/influx-data
