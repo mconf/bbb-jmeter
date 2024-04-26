@@ -24,7 +24,7 @@ When the Owner loop ends, they end the meeting.
 Docker and docker-compose
 ## Running
 - `git clone https://github.com/mconf/bbb-jmeter.git && cd bbb-jmeter`
-- Edit `.env` file: 
+- Edit `.env` file:
   - Add the `hostname` and `salt` of the server you want to test against
   - Configure the threads and ping variables as desired
 - Edit `test/meetings.csv` if you want to create more than one meeting (and increase `ThreadsOwner` accordingly)
@@ -37,14 +37,21 @@ Open http://localhost:30000/ in your browswer to see live results while test is 
 ## Editing test script with Jmeter GUI locally
 1. Download latest jmeter https://jmeter.apache.org/download_jmeter.cgi (requires Java 8)
 1. You will also need the Webscockets Plugin:
-   1. Download Jars: https://jmeter-plugins.org/get/ and https://jmeter-plugins.org/files/packages/websocket-samplers-1.2.8.zip (need to extract)
+   1. Download Jars: https://jmeter-plugins.org/get/ and https://bitbucket.org/pjtr/jmeter-websocket-samplers/downloads/ (need to extract)
    1. Copy the jars to the `lib/ext` folder inside jmeter
 1. Open `jmeter.sh`|`jmeter.bat`
 
 While editing, to make small tests and debug, disable `Backend Listener` and enable `View Results Tree/Table` to see the exact errors.
 
+##
+
+In your BigBlueButton server, make sure you remove the 3 connections per user.
+Edit /usr/share/bigbluebutton/nginx/bbb-html5.nginx, then comment `limit_conn`, and then run `sudo systemctl reload nginx`.
+https://github.com/bigbluebutton/bigbluebutton/pull/15977/files#diff-b5ecf26038a7030cd5dda45561b30819cefd6109ae8fc2abbbc0fdae36302fa0R7
+If you don't do it, you'll start having errors on Open Connection.
+
 ## Credits
 
 This work is based on scripts developed by the staff of RNP - Rede Nacional de Ensino e Pesquisa (https://www.rnp.br/en), the Brazilian NREN, in the context of stress testing Conferência Web (https://conferenciaweb.rnp.br/).
 
-## 
+##
