@@ -1,6 +1,7 @@
 version: "2"
 services:
   jmeter:
+    container_name: jmeter
     build:
       context: ./jmeter/
     links:
@@ -8,7 +9,7 @@ services:
     volumes:
       - ./${TEST_DIR}/:/${TEST_DIR}/
       - ./plugins/:/plugins
-    command: 
+    command:
       ${JMETER_COMMAND}
     environment:
       - JVM_ARGS=${JVM_ARGS}
